@@ -46,16 +46,24 @@
         }
     </style>
     <script>
-        function onReady() {
-            var appURL = '//example.com/path/to/contents';
-            var storeURL = '//itunes.apple.com/app/apple-store/id714702585?pt=619251&ct=kktop&mt=8';
+        var appURL = '//example.com/path/to/contents';
+        var storeURL = '//itunes.apple.com/app/apple-store/id714702585?pt=619251&ct=kktop&mt=8';
 
+        function onReady() {
+
+            var appbtn0 = document.getElementById('appbtn0');
             var appbtn1 = document.getElementById('appbtn1');
             var appbtn2 = document.getElementById('appbtn2');
             var appbtn3 = document.getElementById('appbtn3');
 
             var onClickStatic = function() {
                 location.href = 'itms-apps:';
+            };
+            var onClick0 = function(e) {
+                location.href = 'myapp:' + appURL;
+                setTimeout(function() {
+                    location.href = 'https:' + storeURL;
+                }, 500);
             };
             var onClick1 = function(e) {
                 setTimeout(function() {
@@ -77,9 +85,11 @@
                 }, 500);
                 location.href = 'myapp:' + appURL;
             };
+
+            appbtn0.addEventListener('click', onClick0, false);
             appbtn1.addEventListener('click', onClick1, false);
             appbtn2.addEventListener('click', onClick2, false);
-            appbtn3.addEventListener('click', onClick2, false);
+            appbtn3.addEventListener('click', onClick3, false);
         }
         window.addEventListener('DOMContentLoaded', onReady, false);
     </script>
@@ -95,6 +105,7 @@
     </ul>
     <h2>アプリ起動後に500ms遅延して遷移</h2>
     <ul>
+        <li><button id="appbtn0">ストアに遷移(https)</button></li>
         <li><button id="appbtn1">ストアに遷移(https)</button></li>
         <li><button id="appbtn2">ストアに遷移(itms-apps)</button></li>
         <li><button id="appbtn3">遷移前に静的リンクに変更</button></li>
