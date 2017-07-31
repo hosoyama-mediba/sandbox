@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2, h3 {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        ul, li {
+            list-style: none;
+        }
+        #startapp {
+            text-align: center;
+        }
+        #startapp button {
+            width: 200px;
+            min-height: 44px;
+            margin: 20px 0 0 0;
+            text-decoration: none;
+            color:#fff;
+            background-color:#eb5505;
+            font-size: 15px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border: none;
+            border-radius: 4px;
+        }
+        #startapp a {
+            width: 200px;
+            display: inline-block;
+            margin-top: 20px;
+            color: #00f;
+            text-decoration: none;
+            line-height: 44px;
+            color:#fff;
+            background-color:#0555eb;
+            font-size: 15px;
+            border-radius: 4px;
+        }
+    </style>
+    <script>
+        function onReady() {
+            var appURL = '//example.com/path/to/contents';
+            var storeURL = '//itunes.apple.com/app/apple-store/id714702585?pt=619251&ct=kktop&mt=8';
+
+            var appbtn1 = document.getElementById('appbtn1');
+            var appbtn2 = document.getElementById('appbtn2');
+            var appbtn3 = document.getElementById('appbtn3');
+
+            var onClickStatic = function() {
+                location.href = 'itms-apps:';
+            };
+            var onClick1 = function(e) {
+                setTimeout(function() {
+                    location.href = 'https:' + storeURL;
+                }, 500);
+                location.href = 'myapp:' + appURL;
+            };
+            var onClick2 = function(e) {
+                setTimeout(function() {
+                    location.href = 'itms-apps:' + storeURL;
+                }, 500);
+                location.href = 'myapp:' + appURL;
+            };
+            var onClick3 = function(e) {
+                setTimeout(function() {
+                    appbtn3.removeEventListener('click', onClick3);
+                    appbtn3.addEventListener('click', onClickStatic, false);
+                    location.href = 'itms-apps:' + storeURL;
+                }, 500);
+                location.href = 'myapp:' + appURL;
+            };
+            appbtn1.addEventListener('click', onClick1, false);
+            appbtn2.addEventListener('click', onClick2, false);
+            appbtn3.addEventListener('click', onClick2, false);
+        }
+        window.addEventListener('DOMContentLoaded', onReady, false);
+    </script>
+</head>
+<body>
+<div id="startapp">
+    <h1>iOSアプリ起動→ストア遷移のテスト</h1>
+    <h2>遅延なしの通常リンク</h2>
+    <ul>
+        <li><a href="myapp://example.com/path/to/contents">アプリ起動 (カスタム)</a></li>
+        <li><a href="https://itunes.apple.com/app/apple-store/id714702585?pt=619251&ct=kktop&mt=8">ストアに遷移 (https)</a></li>
+        <li><a href="itms-apps://itunes.apple.com/app/apple-store/id714702585?pt=619251&ct=kktop&mt=8">ストアに遷移 (itms-apps)</a></li>
+    </ul>
+    <h2>アプリ起動後に500ms遅延して遷移</h2>
+    <ul>
+        <li><button id="appbtn1">ストアに遷移(https)</button></li>
+        <li><button id="appbtn2">ストアに遷移(itms-apps)</button></li>
+        <li><button id="appbtn3">遷移前に静的リンクに変更</button></li>
+    </ul>
+</div>
+</body>
+</html>
