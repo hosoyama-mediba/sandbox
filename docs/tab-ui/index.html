@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <title>tab-ui</title>
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="./app.css">
+</head>
+<body>
+<div class="app">
+
+    <header class="Header">
+        <h1>header</h1>
+    </header>
+
+    <section class="News">
+        <div class="News__tab-bar -sticky">
+            <div class="News__tab-bar-inner">
+                <ul class="News__tab-list">
+                    <li class="News__tab-item -active">
+                        <label>トップ</label>
+                    </li>
+                    <li class="News__tab-item">
+                        <label>政治</label>
+                    </li>
+                    <li class="News__tab-item">
+                        <label>経済</label>
+                    </li>
+                    <li class="News__tab-item">
+                        <label>国内</label>
+                    </li>
+                    <li class="News__tab-item">
+                        <label>国際</label>
+                    </li>
+                    <li class="News__tab-item">
+                        <label>スポーツ</label>
+                    </li>
+                    <li class="News__tab-item">
+                        <label>芸能</label>
+                    </li>
+                </ul>
+                <div class="News__tab-decorator"></div>
+            </div>
+        </div>
+        <article class="News__tab-panel-list">
+            <section class="News__tab-panel-item -active">
+                <h2>Content1</h2>
+                <p>...</p>
+            </section>
+            <section class="News__tab-panel-item">
+                <h2>Content2</h2>
+                <p>...</p>
+            </section>
+            <section class="News__tab-panel-item">
+                <h2>Content3</h2>
+                <p>...</p>
+            </section>
+            <section class="News__tab-panel-item">
+                <h2>Content4</h2>
+                <p>...</p>
+            </section>
+            <section class="News__tab-panel-item">
+                <h2>Content5</h2>
+                <p>...</p>
+            </section>
+            <section class="News__tab-panel-item">
+                <h2>Content6</h2>
+                <p>...</p>
+            </section>
+            <section class="News__tab-panel-item">
+                <h2>Content7</h2>
+                <p>...</p>
+            </section>
+        </article>
+    </section>
+
+    <footer class="Footer">
+        <p>footer</p>
+    </footer>
+
+    <script src="./app.js"></script>
+    <script>
+        const news = new News({
+            tabBar: 'tab-bar',
+            tabBarInner: 'tab-bar-inner',
+            tabDecorator: 'tab-decorator',
+            tabList: 'tab-list',
+            tabItems: 'tab-item',
+            tabPanelList: 'tab-panel-list',
+            tabPanelItems: 'tab-panel-item',
+            defaultTabItem: 'tab-item.-active',
+        });
+        news.initialize();
+    </script>
+</div>
+</body>
+</html>
