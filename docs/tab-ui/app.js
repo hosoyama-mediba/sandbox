@@ -27,10 +27,11 @@ class News {
      * 初期化
      */
     initialize() {
-        const defaultIndex = this.tabIndex.getAttribute('value') || 0;
+        const defaultIndex = Number(this.tabIndex.value) || 0;
         const defaultTabItem = this.tabItems[defaultIndex];
 
         this.updateTabIndex(defaultIndex);
+        this.scrollTabBarInner(defaultTabItem);
         this.initializeTabDecorator(defaultTabItem.offsetLeft, defaultTabItem.offsetWidth);
         this.initializeTabItems();
     }
@@ -78,7 +79,7 @@ class News {
      * @param {Number} tabItemIndex
      */
     updateTabIndex(tabItemIndex) {
-        this.tabIndex.setAttribute('value', tabItemIndex)
+        this.tabIndex.value = tabItemIndex;
         this.updateActiveTabItem(tabItemIndex);
         this.updateActiveTabPanelItem(tabItemIndex);
     }
