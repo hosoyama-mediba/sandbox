@@ -15,6 +15,11 @@
 .News {
     margin: 0;
 }
+
+.News__tab-controller {
+    display: none;
+}
+
 .News__tab-bar {
     width: 100%;
     height: 3rem;

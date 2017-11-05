@@ -16,6 +16,9 @@
     </header>
 
     <section class="News">
+        <form class="News__tab-controller">
+            <input class="News__tab-index" type="text">
+        </form>
         <div class="News__tab-bar -sticky">
             <div class="News__tab-bar-inner">
                 <ul class="News__tab-list">
@@ -83,6 +86,7 @@
     <script src="./app.js"></script>
     <script>
         const news = new News({
+            tabIndex: 'tab-index',
             tabBar: 'tab-bar',
             tabBarInner: 'tab-bar-inner',
             tabDecorator: 'tab-decorator',

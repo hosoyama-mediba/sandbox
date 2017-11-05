@@ -13,6 +13,7 @@ class News {
      */
     constructor(classes) {
         this.el = document.querySelector(`.${News.BLOCK}`);
+        this.tabIndex = this.el.querySelector(`.${News.BLOCK}__${classes.tabIndex}`);
         this.tabBar = this.el.querySelector(`.${News.BLOCK}__${classes.tabBar}`);
         this.tabBarInner = this.tabBar.querySelector(`.${News.BLOCK}__${classes.tabBarInner}`);
         this.tabDecorator = this.tabBar.querySelector(`.${News.BLOCK}__${classes.tabDecorator}`);
@@ -26,9 +27,10 @@ class News {
      * 初期化
      */
     initialize() {
-        const tabItems = this.tabItems;
-        const defaultTabItem = Array.from(tabItems).find(tabItem => tabItem.classList.contains('-active'));
+        const defaultIndex = this.tabIndex.getAttribute('value') || 0;
+        const defaultTabItem = this.tabItems[defaultIndex];
 
+        this.updateTabIndex(defaultIndex);
         this.initializeTabDecorator(defaultTabItem.offsetLeft, defaultTabItem.offsetWidth);
         this.initializeTabItems();
     }
@@ -71,11 +73,22 @@ class News {
     }
 
     /**
+     * タブを更新する
+     *
+     * @param {Number} tabItemIndex
+     */
+    updateTabIndex(tabItemIndex) {
+        this.tabIndex.setAttribute('value', tabItemIndex)
+        this.updateActiveTabItem(tabItemIndex);
+        this.updateActiveTabPanelItem(tabItemIndex);
+    }
+
+    /**
      * タブをアクティブにする
      *
      * @param {Number} index - インデックス
      */
-     selectActiveTabItem(index) {
+     updateActiveTabItem(index) {
         Array.from(this.tabItems).forEach((tabItem, tabItemIndex) => {
             if (tabItemIndex === index) {
                 tabItem.classList.add('-active');
@@ -90,7 +103,7 @@ class News {
      *
      * @param {Number} index - インデックス
      */
-    selectActiveTabPanelItem(index) {
+    updateActiveTabPanelItem(index) {
         Array.from(this.tabPanelItems).forEach((tabPanelItem, tabPanelItemIndex) => {
             if (tabPanelItemIndex === index) {
                 tabPanelItem.classList.add('-active');
@@ -153,8 +166,7 @@ class News {
         const tabItemIndex = Array.from(this.tabItems).indexOf(tabItem);
 
         this.transformDecorator(tabItem.offsetLeft, tabItem.offsetWidth);
-        this.selectActiveTabItem(tabItemIndex);
-        this.selectActiveTabPanelItem(tabItemIndex);
+        this.updateTabIndex(tabItemIndex);
         this.scrollTabBarInner(tabItem);
     }
 }
