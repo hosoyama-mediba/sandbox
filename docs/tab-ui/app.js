@@ -1,3 +1,19 @@
+/**
+ * スロットル関数
+ */
+function createThrottle() {
+    let resizeTimer;
+    return ((callback, interval = 300) => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            return callback();
+        }, interval);
+    });
+}
+
+/**
+ * ニュース
+ */
 class News {
     /**
      * @property {string} BLOCK - ブロック
@@ -30,6 +46,8 @@ class News {
         const defaultIndex = Number(this.tabIndex.value) || 0;
         const defaultTabItem = this.tabItems[defaultIndex];
 
+        this.throttle = createThrottle();
+
         this.updateTabIndex(defaultIndex);
         this.scrollTabBarInner(defaultTabItem);
         this.initializeTabDecorator(defaultTabItem.offsetLeft, defaultTabItem.offsetWidth);
@@ -61,6 +79,7 @@ class News {
         Array.from(tabItems).forEach(tabItem => {
             tabItem.addEventListener('click', e => this.onClickTabItem(e));
         });
+        window.addEventListener('resize', (e) => this.onWindowResize(e));
     }
 
     /**
@@ -156,6 +175,7 @@ class News {
             return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
         }
     }
+
     /**
      * タブがクリックされたとき
      *
@@ -169,5 +189,16 @@ class News {
         this.transformDecorator(tabItem.offsetLeft, tabItem.offsetWidth);
         this.updateTabIndex(tabItemIndex);
         this.scrollTabBarInner(tabItem);
+    }
+
+    /**
+     * ウィンドウがリサイズされたとき
+     */
+    onWindowResize() {
+        this.throttle(() => {
+            const tabItem = this.tabItems[this.tabIndex.value];
+            this.transformDecorator(tabItem.offsetLeft, tabItem.offsetWidth);
+            this.scrollTabBarInner(tabItem);
+        }, 300);
     }
 }
