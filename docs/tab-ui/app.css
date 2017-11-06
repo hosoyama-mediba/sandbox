@@ -49,6 +49,7 @@
 
 .News__tab-list {
     display: table;
+    margin: auto;
     height: 3rem;
 }
 
@@ -78,6 +79,7 @@
     margin-top: .75rem;
     background-color: #666;
     opacity: 1;
+    transition: opacity 300ms ease-in-out;
 }
 .News__tab-item:first-child::before,
 .News__tab-item.-active::before,
