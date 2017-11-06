@@ -5,9 +5,7 @@ function createThrottle() {
     let resizeTimer;
     return ((callback, interval = 300) => {
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
-            return callback();
-        }, interval);
+        resizeTimer = setTimeout(callback, interval);
     });
 }
 
