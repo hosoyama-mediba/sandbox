@@ -41,7 +41,6 @@
     position: relative;
     height: 5rem;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
 }
 .News__tab-bar-inner::-webkit-scrollbar {
     display: none;
