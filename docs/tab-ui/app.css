@@ -116,5 +116,5 @@
 .News__tab-panel-item > p {
     height: 100rem;
     padding: 10px;
-    border-left: 1px solid #008;
+    border-left: 1px dashed #008;
 }
