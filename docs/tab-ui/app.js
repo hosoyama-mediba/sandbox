@@ -80,6 +80,7 @@ class News {
             tabItem.addEventListener('click', e => this.onClickTabItem(e));
         });
         window.addEventListener('resize', (e) => this.onWindowResize(e));
+        window.addEventListener('orientationchange', (e) => this.onWindowResize(e));
     }
 
     /**
