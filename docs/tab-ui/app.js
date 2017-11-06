@@ -200,6 +200,6 @@ class News {
             const tabItem = this.tabItems[this.tabIndex.value];
             this.transformDecorator(tabItem.offsetLeft, tabItem.offsetWidth);
             this.scrollTabBarInner(tabItem);
-        }, 500);
+        }, 200);
     }
 }
