@@ -218,15 +218,23 @@ class News {
         }
 
         requestAnimationFrame(() => {
+            const scrollTop = window.pageYOffset;
+
             this.overlay.classList.add('-show');
             frame.classList.add('-show');
-            document.documentElement.classList.add('-lock');
+            const lock = () => {
+                document.documentElement.classList.add('-lock');
+                frame.removeEventListener('transitionend', lock);
+            };
+            frame.addEventListener('transitionend', lock);
             if (!frame.src) {
                 frame.src = link.getAttribute('href');
             }
 
+            // for test
             setTimeout(() => {
                 document.documentElement.classList.remove('-lock');
+                window.scrollTo(0, scrollTop);
                 this.overlay.classList.remove('-show');
                 frame.classList.remove('-show');
             }, 5000);
