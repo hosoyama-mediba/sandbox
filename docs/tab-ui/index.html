@@ -19,6 +19,7 @@
         <form class="News__tab-controller">
             <input class="News__tab-index" type="text">
         </form>
+        <div class="News__overlay"></div>
         <div class="News__tab-bar -sticky">
             <div class="News__tab-bar-inner">
                 <ul class="News__tab-list">
@@ -50,6 +51,10 @@
         <article class="News__tab-panel-list">
             <section class="News__tab-panel-item">
                 <h2>Content1</h2>
+                <ul>
+                    <li><a href="https://example.com/" class="News__link">example.com</a></li>
+                    <li><a href="https://www.example.com/" class="News__link">www.example.com</a></li>
+                </ul>
                 <p>...</p>
             </section>
             <section class="News__tab-panel-item">
@@ -85,17 +90,7 @@
 
     <script src="./app.js"></script>
     <script>
-        const news = new News({
-            tabIndex: 'tab-index',
-            tabBar: 'tab-bar',
-            tabBarInner: 'tab-bar-inner',
-            tabDecorator: 'tab-decorator',
-            tabList: 'tab-list',
-            tabItems: 'tab-item',
-            tabPanelList: 'tab-panel-list',
-            tabPanelItems: 'tab-panel-item',
-            defaultTabItem: 'tab-item.-active',
-        });
+        const news = new News();
         news.initialize();
     </script>
 </div>

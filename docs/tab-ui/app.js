@@ -14,10 +14,23 @@ function createThrottle() {
  */
 class News {
     /**
-     * @property {string} BLOCK - ブロック
+     * @property {string} ui - UI
      */
-    static get BLOCK() {
-        return 'News';
+    static get ui() {
+        return {
+            block: 'News',
+            overlay: `News__overlay`,
+            tabIndex: `News__tab-index`,
+            tabBar: `News__tab-bar`,
+            tabBarInner: `News__tab-bar-inner`,
+            tabDecorator: `News__tab-decorator`,
+            tabList: `News__tab-list`,
+            tabItem: `News__tab-item`,
+            tabPanelList: `News__tab-panel-list`,
+            tabPanelItem: `News__tab-panel-item`,
+            link: `News__link`,
+            article: `News__article`,
+        }
     }
 
     /**
@@ -26,15 +39,16 @@ class News {
      * @param {Object} classes - エレメント定義
      */
     constructor(classes) {
-        this.el = document.querySelector(`.${News.BLOCK}`);
-        this.tabIndex = this.el.querySelector(`.${News.BLOCK}__${classes.tabIndex}`);
-        this.tabBar = this.el.querySelector(`.${News.BLOCK}__${classes.tabBar}`);
-        this.tabBarInner = this.tabBar.querySelector(`.${News.BLOCK}__${classes.tabBarInner}`);
-        this.tabDecorator = this.tabBar.querySelector(`.${News.BLOCK}__${classes.tabDecorator}`);
-        this.tabList = this.tabBarInner.querySelector(`.${News.BLOCK}__${classes.tabList}`);
-        this.tabItems = this.tabList.querySelectorAll(`.${News.BLOCK}__${classes.tabItems}`);
-        this.tabPanelList = this.el.querySelector(`.${News.BLOCK}__${classes.tabPanelList}`);
-        this.tabPanelItems = this.tabPanelList.querySelectorAll(`.${News.BLOCK}__${classes.tabPanelItems}`);
+        this.block = document.querySelector(`.${News.ui.block}`);
+        this.overlay = this.block.querySelector(`.${News.ui.overlay}`);
+        this.tabIndex = this.block.querySelector(`.${News.ui.tabIndex}`);
+        this.tabBar = this.block.querySelector(`.${News.ui.tabBar}`);
+        this.tabBarInner = this.tabBar.querySelector(`.${News.ui.tabBarInner}`);
+        this.tabDecorator = this.tabBar.querySelector(`.${News.ui.tabDecorator}`);
+        this.tabList = this.tabBarInner.querySelector(`.${News.ui.tabList}`);
+        this.tabItems = this.tabList.querySelectorAll(`.${News.ui.tabItem}`);
+        this.tabPanelList = this.block.querySelector(`.${News.ui.tabPanelList}`);
+        this.tabPanelItems = this.tabPanelList.querySelectorAll(`.${News.ui.tabPanelItem}`);
     }
 
     /**
@@ -50,6 +64,19 @@ class News {
         this.scrollTabBarInner(defaultTabItem);
         this.initializeTabDecorator(defaultTabItem.offsetLeft, defaultTabItem.offsetWidth);
         this.initializeTabItems();
+        this.initializeArticles();
+    }
+
+    /**
+     * 記事を初期化
+     */
+    initializeArticles() {
+        Array.from(this.tabPanelItems).forEach((tabPanelItem) => {
+            const articles = tabPanelItem.querySelectorAll(`.${News.ui.link}`);
+            Array.from(articles).forEach(article => {
+                article.addEventListener('click', e => this.onArticleClick(e));
+            });
+        });
     }
 
     /**
@@ -176,6 +203,35 @@ class News {
     }
 
     /**
+     * 記事詳細を取得する
+     *
+     * @param {HTMLLinkElement} link - リンク
+     */
+    showArticle(link) {
+        const parent = link.parentNode;
+        let frame = parent.querySelector(`.${News.ui.article}`);
+
+        if (!frame) {
+            frame = document.createElement('iframe');
+            frame.classList.add(News.ui.article);
+            link.parentNode.appendChild(frame);
+        }
+
+        requestAnimationFrame(() => {
+            this.overlay.classList.add('-show');
+            frame.classList.add('-show');
+            if (!frame.src) {
+                frame.src = link.getAttribute('href');
+            }
+
+            setTimeout(() => {
+                this.overlay.classList.remove('-show');
+                frame.classList.remove('-show');
+            }, 5000);
+        });
+    }
+
+    /**
      * タブがクリックされたとき
      *
      * @param {Event} e - イベント
@@ -199,5 +255,13 @@ class News {
             this.transformDecorator(tabItem.offsetLeft, tabItem.offsetWidth);
             this.scrollTabBarInner(tabItem);
         }, 200);
+    }
+
+    /**
+     * 記事クリック
+     */
+    onArticleClick(e) {
+        e.preventDefault();
+        this.showArticle(e.currentTarget);
     }
 }
