@@ -220,11 +220,13 @@ class News {
         requestAnimationFrame(() => {
             this.overlay.classList.add('-show');
             frame.classList.add('-show');
+            document.documentElement.classList.add('-lock');
             if (!frame.src) {
                 frame.src = link.getAttribute('href');
             }
 
             setTimeout(() => {
+                document.documentElement.classList.remove('-lock');
                 this.overlay.classList.remove('-show');
                 frame.classList.remove('-show');
             }, 5000);
