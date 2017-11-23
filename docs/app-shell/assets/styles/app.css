@@ -1,0 +1,128 @@
+@charset "utf-8";
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, 'メイリオ', Osaka, 'MS PGothic', 'ＭＳ Ｐゴシック', Arial, Helvetica, sans-serif;
+}
+
+.header {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 3px 3px 0 rgba(0,0,0,0.2);
+    background-color: #eb5505;
+    color: #fff;
+    transition: transform 300ms ease-in-out;
+}
+
+.header.-shrink {
+    transform: translateY(-64px);
+}
+
+.header__inner {
+    margin: 0 auto;
+}
+
+.header__top {
+    height: 44px;
+    padding: 10px;
+}
+
+.header__search {
+    display: flex;
+    align-items: stretch;
+    border-radius: 4px;
+    background-color: #fff;
+    height: 44px;
+    line-height: 44px;
+}
+
+.header__search-form {
+    flex-basis: 100%;
+    border: none;
+    -webkit-appearance: none;
+    padding-right: 20px;
+}
+
+.header__search-form-input {
+    width: 100%;
+    border: none;
+    -webkit-appearance: none;
+    font-size: 16px;
+    outline: none;
+}
+
+.header__botton.-sidemenu {
+    display: block;
+    position: relative;
+    left: 0;
+    width: 22px;
+    height: 16px;
+    border: 2px solid #eb5505;
+    border-width: 2px 0;
+    box-sizing: border-box;
+    margin: auto 14px;
+}
+
+.header__botton.-sidemenu::before {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50%;
+    border-top: 2px solid #eb5505;
+    box-sizing: border-box;
+    top: 5px;
+    content: '';
+}
+.header__under {
+    display: flex;
+    justify-content: space-around;
+    height: 3rem;
+    line-height: 3rem;
+}
+
+.header__nav-title {
+    position: absolute;
+    top: 10px;
+    left: 60px;
+}
+
+.header__nav-item {
+    flex: 1;
+    text-align: center;
+}
+
+.header__nav-controller {
+    display: none;
+}
+
+.header__nav-controller:checked + .header__nav-label {
+    border-bottom: 2px solid #fff;
+}
+
+.header__nav-label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    transition: all 300ms;
+    font-size: 14px;
+}
+
+.main {
+    position: relative;
+    margin-top: 112px;
+    padding: 10px;
+}
+.main p {
+    line-height: 2rem;
+    height: 3000px;
+    border-left: 1px dashed #666;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <title>app-shell</title>
+    <link rel="stylesheet" href="./assets/styles/reset.css">
+    <link rel="stylesheet" href="./assets/styles/app.css">
+    <script async src="./assets/scripts/entry.js"></script>
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header__inner">
+                <div class="header__top">
+                    <div class="header__search">
+                        <div class="header__botton -sidemenu"></div>
+                        <form class="header__search-form">
+                            <input class="header__search-form-input" type="text" placeholder="Sample App">
+                        </form>
+                    </div>
+                </div>
+                <nav class="header__under">
+                    <div class="header__nav-item -home">
+                        <input class="header__nav-controller" type="radio" name="header__nav-controller" id="header__nav-controller-home" checked>
+                        <label class="header__nav-label" for="header__nav-controller-home">ホーム</label>
+                    </div>
+                    <div class="header__nav-item -news">
+                        <input class="header__nav-controller" type="radio" name="header__nav-controller" id="header__nav-controller-news">
+                        <label class="header__nav-label" for="header__nav-controller-news">ニュース</label>
+                    </div>
+                    <div class="header__nav-item -search">
+                        <input class="header__nav-controller" type="radio" name="header__nav-controller" id="header__nav-controller-search">
+                        <label class="header__nav-label" for="header__nav-controller-search">検索</label>
+                    </div>
+                    <div class="header__nav-item -message">
+                        <input class="header__nav-controller" type="radio" name="header__nav-controller" id="header__nav-controller-message">
+                        <label class="header__nav-label" for="header__nav-controller-message">メッセージ</label>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <main class="main">
+            <div>
+                <p>Content</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
