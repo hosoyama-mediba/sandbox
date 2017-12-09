@@ -232,7 +232,8 @@ body {
 .carousel2__viewport {
     z-index: 2;
     width: 320px;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     position: relative;
     -webkit-overflow-scrolling: touch;
 }
