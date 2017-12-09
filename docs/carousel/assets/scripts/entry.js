@@ -29,6 +29,9 @@ class PortalApp {
         this.carousel = {
             index: 0,
         };
+        this.carousel2 = {
+            index: 0,
+        };
     }
 
     /**
@@ -37,6 +40,7 @@ class PortalApp {
     onReady() {
         this.cacheElements();
         this.addEvents();
+        this.startCarousel();
     }
 
     /**
@@ -130,7 +134,15 @@ class PortalApp {
             indicators: document.querySelectorAll('.js-carousel__indicator'),
         };
 
-        this.ui = { root, header, headerTop, navs, carousel };
+        const carousel2 = {
+            wrapper: document.querySelector('.js-carousel2__item-wrapper'),
+            prev: document.querySelector('.js-carousel2__button.-prev'),
+            next: document.querySelector('.js-carousel2__button.-next'),
+            indicators: document.querySelectorAll('.js-carousel2__indicator'),
+            viewport: document.querySelector('.js-carousel2__viewport'),
+        };
+
+        this.ui = { root, header, headerTop, navs, carousel, carousel2 };
     }
 
     /**
@@ -147,6 +159,19 @@ class PortalApp {
 
         this.ui.carousel.prev.addEventListener('click', e => this.onCarouselPrevClicked(e), false);
         this.ui.carousel.next.addEventListener('click', e => this.onCarouselNextClicked(e), false);
+
+        this.ui.carousel2.prev.addEventListener('click', e => this.onCarousel2PrevClicked(e), false);
+        this.ui.carousel2.next.addEventListener('click', e => this.onCarousel2NextClicked(e), false);
+    }
+
+    startCarousel() {
+        setInterval(() => {
+            this.ui.carousel.next.click();
+        }, 5000);
+
+        setInterval(() => {
+            this.ui.carousel2.next.click();
+        }, 5000);
     }
 
     moveCarousel(isPrev) {
@@ -200,12 +225,55 @@ class PortalApp {
         this.carousel.index = afterIndex;
     }
 
+    scrollCarousel(isPrev) {
+        const wrapper = this.ui.carousel2.wrapper;
+        const stopTransition = '-stop-transition';
+
+        if (!wrapper.classList.contains(stopTransition)) {
+            return;
+        }
+
+        const beforeIndex = this.carousel2.index;
+
+        let afterIndex = beforeIndex + (isPrev ? -1 : 1);
+        if (afterIndex < 0) {
+            afterIndex = 2;
+        } else if (afterIndex > 2) {
+            afterIndex = 0;
+        }
+
+        scrollX(
+            this.ui.carousel2.viewport,
+            afterIndex * 320,
+            300,
+            'easeInOutQuad',
+        )
+
+        Array.from(this.ui.carousel2.indicators).forEach((indicator, i) => {
+            if (afterIndex === i) {
+                indicator.classList.add('-active');
+            } else {
+                indicator.classList.remove('-active');
+            }
+        });
+
+        this.carousel2.index = afterIndex;
+    }
+
     onCarouselPrevClicked(e) {
         this.moveCarousel(true);
     }
 
     onCarouselNextClicked(e) {
         this.moveCarousel(false);
+    }
+
+    onCarousel2PrevClicked(e) {
+        this.scrollCarousel(true);
+    }
+
+    onCarousel2NextClicked(e) {
+        this.scrollCarousel(false);
     }
 
     /**
@@ -236,6 +304,44 @@ class PortalApp {
         };
     }
 }
+
+function scrollX(element, x, duration, easingName, callback) {
+    const startTime = performance.now();
+    const from = element.scrollLeft;
+
+    function scroll(timestamp) {
+        const time = Math.min(1, ((timestamp - startTime) / duration));
+        const easedTime = easing[easingName](time);
+        const easedX = (easedTime * (x - from)) + from;
+
+        element.scrollTo(easedX, 0);
+
+        if (time < 1) {
+            requestAnimationFrame(scroll);
+        } else if(callback) {
+            callback();
+        }
+    }
+
+    requestAnimationFrame(scroll)
+}
+
+const easing = {
+    linear: t => t,
+    easeInQuad: t => t * t,
+    easeOutQuad: t => t * (2 - t),
+    easeInOutQuad: t => t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t,
+    easeInCubic: t => t * t * t,
+    easeOutCubic: t => (--t) * t * t + 1,
+    easeInOutCubic: t => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) +1,
+    easeInQuart: t => t * t * t * t,
+    easeOutQuart: t => 1 - (--t) * t * t * t,
+    easeInOutQuart: t => t < .5 ? 8 * t * t * t * t : 1 -8 * (--t) * t *  t * t,
+    easeInQuint: t => t * t * t * t * t,
+    easeOutQuint: t => 1 + (--t) * t * t * t * t,
+    easeInOutQuint: t  => t < .5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t,
+    easeOutCirc: t => Math.sqrt(1 - ( --t * t )),
+};
 
 const portalApp = new PortalApp();
 portalApp.initialize();
