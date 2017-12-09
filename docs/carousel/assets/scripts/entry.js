@@ -164,14 +164,52 @@ class PortalApp {
 
         this.ui.carousel2.prev.addEventListener('click', e => this.onCarousel2PrevClicked(e), false);
         this.ui.carousel2.next.addEventListener('click', e => this.onCarousel2NextClicked(e), false);
+        this.ui.carousel2.viewport.addEventListener('scroll', debounce(e => this.onCarousel2Scrolled(e), 100), false);
+    }
+
+    onCarousel2Scrolled(e) {
+        const index = this.carousel2.index;
+        const scrollX = this.ui.carousel2.viewport.scrollLeft;
+        const style = this.ui.carousel2.viewport.style;
+
+        let afterIndex;
+        if (scrollX < 160) {
+            afterIndex = 0;
+        } else if (scrollX > 480) {
+            afterIndex = 2;
+        } else {
+            afterIndex = 1;
+        }
+
+        if (scrollX % 320 !== 0) {
+            clearTimeout(this.carousel2.timer);
+            this.carousel2.timer = setTimeout(() => {
+                this.ui.carousel2.next.click();
+            }, 5000);
+
+            scrollXTo(
+                this.ui.carousel2.viewport,
+                afterIndex * 320,
+                300,
+                'easeInOutQuad',
+            );
+            Array.from(this.ui.carousel2.indicators).forEach((indicator, i) => {
+                if (afterIndex === i) {
+                    indicator.classList.add('-active');
+                } else {
+                    indicator.classList.remove('-active');
+                }
+            });
+            this.carousel2.index = afterIndex;
+        }
     }
 
     startCarousel() {
-        setTimeout(() => {
+        this.carousel.timer = setTimeout(() => {
             this.ui.carousel.next.click();
         }, 5000);
 
-        setTimeout(() => {
+        this.carousel2.timer = setTimeout(() => {
             this.ui.carousel2.next.click();
         }, 5000);
     }
@@ -256,13 +294,13 @@ class PortalApp {
 
         wrapper.classList.remove(stopTransition);
 
-        scrollX(
+        scrollXTo(
             this.ui.carousel2.viewport,
             afterIndex * 320,
             300,
             'easeInOutQuad',
             () =>  wrapper.classList.add(stopTransition),
-        )
+        );
 
         Array.from(this.ui.carousel2.indicators).forEach((indicator, i) => {
             if (afterIndex === i) {
@@ -320,7 +358,7 @@ class PortalApp {
     }
 }
 
-function scrollX(element, x, duration, easingName, callback) {
+function scrollXTo(element, x, duration, easingName, callback) {
     const startTime = performance.now();
     const from = element.scrollLeft;
 
@@ -358,6 +396,16 @@ const easing = {
     easeInOutQuint: t  => t < .5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t,
     easeOutCirc: t => Math.sqrt(1 - ( --t * t )),
 };
+
+function debounce(callback, interval = 300) {
+    let timer;
+    return ((e) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            callback(e);
+        }, interval);
+    });
+}
 
 const portalApp = new PortalApp();
 portalApp.initialize();
