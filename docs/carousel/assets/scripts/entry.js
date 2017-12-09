@@ -202,6 +202,9 @@ class PortalApp {
                 afterIndex * 320,
                 300,
                 'easeInOutQuad',
+                () => {
+                    this.ui.carousel2.viewport.addEventListener('scroll', this.carousel2.scrollEventHandler);
+                },
             );
             Array.from(this.ui.carousel2.indicators).forEach((indicator, i) => {
                 if (afterIndex === i) {
@@ -211,8 +214,6 @@ class PortalApp {
                 }
             });
             this.carousel2.index = afterIndex;
-            this.ui.carousel2.viewport.addEventListener('scroll', this.carousel2.scrollEventHandler);
-
         }
     }
 
