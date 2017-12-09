@@ -25,6 +25,9 @@ class PortalApp {
         this.throttle = {
             updateHeader: this.throttlify(this.updateHeader),
         };
+        this.debounce = {
+            snapCarousel: this.debouncify(this.snapCarousel, 50),
+        };
 
         this.carousel = {
             timer: null,
@@ -164,10 +167,19 @@ class PortalApp {
 
         this.ui.carousel2.prev.addEventListener('click', e => this.onCarousel2PrevClicked(e), false);
         this.ui.carousel2.next.addEventListener('click', e => this.onCarousel2NextClicked(e), false);
-        this.ui.carousel2.viewport.addEventListener('scroll', debounce(e => this.onCarousel2Scrolled(e), 100), false);
+        this.ui.carousel2.viewport.addEventListener('scroll', e => this.onCarousel2Scrolled(e), false);
     }
 
     onCarousel2Scrolled(e) {
+        clearTimeout(this.carousel2.timer);
+        this.carousel2.timer = setTimeout(() => {
+            this.ui.carousel2.next.click();
+        }, 5000);
+
+        this.debounce.snapCarousel();
+    }
+
+    snapCarousel() {
         const index = this.carousel2.index;
         const scrollX = this.ui.carousel2.viewport.scrollLeft;
         const style = this.ui.carousel2.viewport.style;
@@ -182,11 +194,6 @@ class PortalApp {
         }
 
         if (scrollX % 320 !== 0) {
-            clearTimeout(this.carousel2.timer);
-            this.carousel2.timer = setTimeout(() => {
-                this.ui.carousel2.next.click();
-            }, 5000);
-
             scrollXTo(
                 this.ui.carousel2.viewport,
                 afterIndex * 320,
@@ -356,6 +363,16 @@ class PortalApp {
             timer = setTimeout(() => callback.apply(this, args), interval);
         };
     }
+
+    debouncify(callback, interval = 300) {
+        let timer;
+        return ((...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                callback.apply(this, args);
+            }, interval);
+        });
+    }
 }
 
 function scrollXTo(element, x, duration, easingName, callback) {
@@ -397,15 +414,6 @@ const easing = {
     easeOutCirc: t => Math.sqrt(1 - ( --t * t )),
 };
 
-function debounce(callback, interval = 300) {
-    let timer;
-    return ((e) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            callback(e);
-        }, interval);
-    });
-}
 
 const portalApp = new PortalApp();
 portalApp.initialize();
