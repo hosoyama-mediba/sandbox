@@ -27,9 +27,11 @@ class PortalApp {
         };
 
         this.carousel = {
+            timer: null,
             index: 0,
         };
         this.carousel2 = {
+            timer: null,
             index: 0,
         };
     }
@@ -165,16 +167,21 @@ class PortalApp {
     }
 
     startCarousel() {
-        setInterval(() => {
+        setTimeout(() => {
             this.ui.carousel.next.click();
         }, 5000);
 
-        setInterval(() => {
+        setTimeout(() => {
             this.ui.carousel2.next.click();
         }, 5000);
     }
 
     moveCarousel(isPrev) {
+        clearTimeout(this.carousel.timer);
+        this.carousel.timer = setTimeout(() => {
+            this.ui.carousel.next.click();
+        }, 5000);
+
         const wrapper = this.ui.carousel.wrapper;
         const stopTransition = '-stop-transition';
 
@@ -226,6 +233,11 @@ class PortalApp {
     }
 
     scrollCarousel(isPrev) {
+        clearTimeout(this.carousel2.timer);
+        this.carousel2.timer = setTimeout(() => {
+            this.ui.carousel2.next.click();
+        }, 5000);
+
         const wrapper = this.ui.carousel2.wrapper;
         const stopTransition = '-stop-transition';
 
@@ -319,6 +331,7 @@ function scrollX(element, x, duration, easingName, callback) {
         if (time < 1) {
             requestAnimationFrame(scroll);
         } else if(callback) {
+            element.scrollTo(x, 0);
             callback();
         }
     }
