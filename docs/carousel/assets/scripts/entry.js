@@ -167,7 +167,9 @@ class PortalApp {
 
         this.ui.carousel2.prev.addEventListener('click', e => this.onCarousel2PrevClicked(e), false);
         this.ui.carousel2.next.addEventListener('click', e => this.onCarousel2NextClicked(e), false);
-        this.ui.carousel2.viewport.addEventListener('scroll', e => this.onCarousel2Scrolled(e), false);
+
+        this.carousel2.scrollEventHandler = e => this.onCarousel2Scrolled(e);
+        this.ui.carousel2.viewport.addEventListener('scroll', this.carousel2.scrollEventHandler, false);
     }
 
     onCarousel2Scrolled(e) {
@@ -194,6 +196,7 @@ class PortalApp {
         }
 
         if (scrollX % 320 !== 0) {
+            this.ui.carousel2.viewport.removeEventListener('scroll', this.carousel2.scrollEventHandler);
             scrollXTo(
                 this.ui.carousel2.viewport,
                 afterIndex * 320,
@@ -208,6 +211,8 @@ class PortalApp {
                 }
             });
             this.carousel2.index = afterIndex;
+            this.ui.carousel2.viewport.addEventListener('scroll', this.carousel2.scrollEventHandler);
+
         }
     }
 
