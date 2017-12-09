@@ -235,7 +235,6 @@ body {
     overflow-x: auto;
     overflow-y: hidden;
     position: relative;
-    -webkit-overflow-scrolling: touch;
 }
 .carousel2__button {
     z-index: 1;
