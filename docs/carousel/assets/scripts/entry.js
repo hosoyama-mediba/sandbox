@@ -254,11 +254,14 @@ class PortalApp {
             afterIndex = 0;
         }
 
+        wrapper.classList.remove(stopTransition);
+
         scrollX(
             this.ui.carousel2.viewport,
             afterIndex * 320,
             300,
             'easeInOutQuad',
+            () =>  wrapper.classList.add(stopTransition),
         )
 
         Array.from(this.ui.carousel2.indicators).forEach((indicator, i) => {
